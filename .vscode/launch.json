@@ -1,0 +1,36 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch cm-generator",
+            "program": "${workspaceFolder}/scripts/colormap-generator.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch ibis-invoke-batch",
+            "program": "${workspaceFolder}/scripts/IBIS-invoke.js",
+            "args": [
+                "--core=2"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch biome-invoke-batch",
+            "program": "${workspaceFolder}/scripts/Biome-BGC-invoke.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch biome-ini-processor",
+            "program": "${workspaceFolder}/scripts/Biome-BGC-ini-processor.js"
+        }
+    ]
+}

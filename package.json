@@ -1,0 +1,15 @@
+{
+  "name": "std-data-processor",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.3",
+    "colormap": "^2.3.0",
+    "lodash": "^4.17.10",
+    "moment": "^2.22.1"
+  }
+}

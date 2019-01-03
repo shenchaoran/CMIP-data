@@ -1,0 +1,1 @@
+node ./test.js 2>error 2>&1|tee log
