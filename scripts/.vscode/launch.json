@@ -12,53 +12,28 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "Python: Attach",
-            "type": "python",
-            "request": "attach",
-            "port": 5678,
-            "host": "localhost"
+            "type": "node",
+            "request": "launch",
+            "name": "Launch cm-generator",
+            "program": "${workspaceFolder}/colormap-generator.js"
         },
         {
-            "name": "Python: Module",
-            "type": "python",
+            "type": "node",
             "request": "launch",
-            "module": "enter-your-module-name-here",
-            "console": "integratedTerminal"
+            "name": "Launch ibis-invoke-batch",
+            "program": "${workspaceFolder}/ibis-invoke.js"
         },
         {
-            "name": "Python: Django",
-            "type": "python",
+            "type": "node",
             "request": "launch",
-            "program": "${workspaceFolder}/manage.py",
-            "console": "integratedTerminal",
-            "args": [
-                "runserver",
-                "--noreload",
-                "--nothreading"
-            ],
-            "django": true
+            "name": "Launch biome-invoke-batch",
+            "program": "${workspaceFolder}/biome-bgc-invoke.js"
         },
         {
-            "name": "Python: Flask",
-            "type": "python",
+            "type": "node",
             "request": "launch",
-            "module": "flask",
-            "env": {
-                "FLASK_APP": "app.py"
-            },
-            "args": [
-                "run",
-                "--no-debugger",
-                "--no-reload"
-            ],
-            "jinja": true
-        },
-        {
-            "name": "Python: Current File (External Terminal)",
-            "type": "python",
-            "request": "launch",
-            "program": "${file}",
-            "console": "externalTerminal"
+            "name": "Launch biome-ini-processor",
+            "program": "${workspaceFolder}/biome-bgc-ini-processor.js"
         }
     ]
 }
