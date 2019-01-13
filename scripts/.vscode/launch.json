@@ -1,0 +1,45 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File (Integrated Terminal)",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch cm-generator",
+            "program": "${workspaceFolder}/colormap-generator.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch ibis-invoke-batch",
+            "program": "${workspaceFolder}/IBIS-invoke.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch biome-invoke-batch",
+            "program": "${workspaceFolder}/Biome-BGC-invoke.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch biome-ini-processor",
+            "program": "${workspaceFolder}/Biome-BGC-ini-processor.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch LaThuile db",
+            "program": "${workspaceFolder}/lathuile-db.js"
+        }
+    ]
+}
