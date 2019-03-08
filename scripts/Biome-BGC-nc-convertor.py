@@ -14,7 +14,7 @@ COOR_PATH = DATA_HOME + '/IBIS_Data/5b9012e4c29ca433443dcfab/IBIS_site_info.txt'
 
 BIOME_OUT_PATH = DATA_HOME + '/Biome_BGC_Data/5b9012e4c29ca433443dcfab/outputs'
 BIOME_OUT_SUFFIX = '.annual-avg.ascii'
-BIOME_NC_PATH = 'data/Biome-BGC-annual-output.nc'
+BIOME_NC_PATH = 'data/Biome-BGC-annual-out.nc'
 
 IBIS_OUT_PATH = DATA_HOME + '/IBIS_Data/5b9012e4c29ca433443dcfab/outputs'
 IBIS_OUT_SUFFIX = '.annual.txt'
@@ -52,7 +52,7 @@ def readNC():
     nepVariable = dataset.variables['NEP']
     neeVariable = dataset.variables['NEE']
 
-
+    print(gppVariable.shape)
     # timeVariable.datatype = 'f4'
     # timeVariable.units = 'days since ' + str(TIME_START) + '-01-01'
     # timeVariable.calendar = '365_day'
@@ -81,19 +81,19 @@ def writeNC():
     latVariable = dataset.createVariable("lat", 'f4', ("lat"))
     timeVariable = dataset.createVariable("time", 'f4', ("time"))
 
-    gppVariable = dataset.createVariable('GPP', 'f4', ('time', 'lat', 'long'), zlib=True, least_significant_digit=8)
-    nppVariable = dataset.createVariable('NPP', 'f4', ('time', 'lat', 'long'), zlib=True, least_significant_digit=8)
-    nepVariable = dataset.createVariable('NEP', 'f4', ('time', 'lat', 'long'), zlib=True, least_significant_digit=8)
-    neeVariable = dataset.createVariable('NEE', 'f4', ('time', 'lat', 'long'), zlib=True, least_significant_digit=8)
+    gppVariable = dataset.createVariable('GPP', 'f4', ('time', 'lat', 'long'), zlib=True, least_significant_digit=4)
+    nppVariable = dataset.createVariable('NPP', 'f4', ('time', 'lat', 'long'), zlib=True, least_significant_digit=4)
+    nepVariable = dataset.createVariable('NEP', 'f4', ('time', 'lat', 'long'), zlib=True, least_significant_digit=4)
+    neeVariable = dataset.createVariable('NEE', 'f4', ('time', 'lat', 'long'), zlib=True, least_significant_digit=4)
 
     gppVariable.set_auto_mask(True)
     nppVariable.set_auto_mask(True)
     nepVariable.set_auto_mask(True)
     neeVariable.set_auto_mask(True)
-    gppVariable.setncattr('missing_value', 0)
-    nppVariable.setncattr('missing_value', 0)
-    nepVariable.setncattr('missing_value', 0)
-    neeVariable.setncattr('missing_value', 0)
+    # gppVariable.setncattr('missing_value', 0)
+    # nppVariable.setncattr('missing_value', 0)
+    # nepVariable.setncattr('missing_value', 0)
+    # neeVariable.setncattr('missing_value', 0)
 
     lonDimension = dataset.dimensions['long']
     latDimension = dataset.dimensions['lat']
@@ -111,6 +111,10 @@ def writeNC():
     latVariable.units = 'degrees_north'
     timeVariable.units = 'days since ' + str(TIME_START) + '-01-01'
     timeVariable.calendar = '365_day'
+    gppVariable.units = 'gC m-2 y-1'
+    nppVariable.units = 'gC m-2 y-1'
+    nepVariable.units = 'gC m-2 y-1'
+    neeVariable.units = 'gC m-2 y-1'
 
     lonVariable[:] = lons
     latVariable[:] = lats
@@ -142,15 +146,10 @@ def writeNC():
     nepVariable[:] = nep
     neeVariable[:] = nee
 
-
-    # gppVariable.scale_factor=365000
-    # gppVariable.add_offset=0
-    # nppVariable.scale_factor=365000
-    # nppVariable.add_offset=0
-    # nepVariable.scale_factor=365000
-    # nepVariable.add_offset=0
-    # neeVariable.scale_factor=365000
-    # neeVariable.add_offset=0
+    gppVariable[:] = np.ma.masked_where((gppVariable[:] == 0), gppVariable)
+    nppVariable[:] = np.ma.masked_where((nppVariable[:] == 0), nppVariable)
+    nepVariable[:] = np.ma.masked_where((nepVariable[:] == 0), nepVariable)
+    neeVariable[:] = np.ma.masked_where((neeVariable[:] == 0), neeVariable)
     
     dataset.close()
     print('finished!')
