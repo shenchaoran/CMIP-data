@@ -1,0 +1,1 @@
+node ./ibis-invoke.js 2>logs/ibis-invoke.error 2>&1|tee logs/ibis-invoke.log

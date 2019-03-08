@@ -1,0 +1,1 @@
+node ./biome-bgc-invoke.js 2>logs/biome-bgc.error 2>&1|tee logs/biome-bgc.log

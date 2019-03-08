@@ -33,19 +33,25 @@
             "type": "node",
             "request": "launch",
             "name": "Launch ibis-invoke-batch",
-            "program": "${workspaceFolder}/ibis-invoke.js"
+            "program": "${workspaceFolder}/IBIS-invoke.js"
         },
         {
             "type": "node",
             "request": "launch",
             "name": "Launch biome-invoke-batch",
-            "program": "${workspaceFolder}/biome-bgc-invoke.js"
+            "program": "${workspaceFolder}/Biome-BGC-invoke.js"
         },
         {
             "type": "node",
             "request": "launch",
             "name": "Launch biome-ini-processor",
-            "program": "${workspaceFolder}/biome-bgc-ini-processor.js"
+            "program": "${workspaceFolder}/Biome-BGC-ini-processor.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch LaThuile db",
+            "program": "${workspaceFolder}/lathuile-db.js"
         }
     ]
 }

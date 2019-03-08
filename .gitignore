@@ -1,3 +1,21 @@
+/CMIP
+/CRU
+/Evernote DB
+/fiddler
+/Fluxdata
+/GeoServer
+/Global-Climate-Data
+/MongoDB-bak
+/node_modules
+/Princeton
+/RCMES_shared
+/STD_DATA
+/STD_Measured_Data
+/Biome_BGC_Data_original
+/Biome_BGC_Data
+/IBIS_Data
+scripts/logs/biome-bgc.log
+scripts/logs/ibis-invoke.log
 /node_modules
 /IBIS_Data
 /Biome_BGC_Data
@@ -8,3 +26,4 @@ elevation_0.5deg.nc
 /MODIS
 /Fluxdata
 /LPJ
+scripts/nohup.out

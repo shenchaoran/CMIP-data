@@ -31,6 +31,21 @@
             "request": "launch",
             "name": "Launch biome-ini-processor",
             "program": "${workspaceFolder}/scripts/Biome-BGC-ini-processor.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch lathuile-db",
+            "program": "${workspaceFolder}/scripts/lathuile-db.js",
+            "env": {
+                "path": "C:\\OSGeo4W64\\bin"
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch current file",
+            "program": "${file}"
         }
     ]
 }
