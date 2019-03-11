@@ -5,6 +5,8 @@ from mpl_toolkits.basemap import Basemap, cm
 from matplotlib.font_manager import _rebuild
 import seaborn as sns
 import pandas as pd
+from matplotlib.transforms import Affine2D
+import mpl_toolkits.axisartist.floating_axes as floating_axes
 
 plt.switch_backend('Agg')
 _rebuild()
@@ -195,8 +197,8 @@ for i, fig in enumerate(figs):
     # if i<=1:
     #     pass
     # else:
-    # plotSpatial(fig)
+    plotSpatial(fig)
     # plotByLat(fig)
-    plotAnnualChange(fig)
+    # plotAnnualChange(fig)
     # plotMonthlyChange(fig)
 
