@@ -89,4 +89,5 @@ def writeNC():
 
     dataset.close()
 
-readNC()
+# readNC()
+writeNC()

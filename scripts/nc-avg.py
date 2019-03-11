@@ -94,16 +94,16 @@ def annualAvg(srcFname, distFname, variableNames, yearIndex, scales):
     print('finished!')
 
 srcFnames = [
-    'Biome-BGC-annual-out.nc',
-    'IBIS-annual-out.nc',
-    'LPJ-annual-out.nc',
-    'MOD17A2-GPP.nc'
+    'annual-Biome-BGC.nc',
+    'annual-IBIS.nc',
+    'annual-LPJ.nc',
+    '8-MOD17A2.nc'
 ]
 distFnames = [
-    'Biome-BGC-2000-2013-avg.nc',
-    'IBIS-2000-2013-avg.nc',
-    'LPJ-2000-2013-avg.nc',
-    'MOD17A2-2000-2013-avg.nc'
+    '2000-2013-avg-Biome-BGC.nc',
+    '2000-2013-avg-IBIS.nc',
+    '2000-2013-avg-LPJ.nc',
+    '2000-2013-avg-MOD17A2.nc'
 ]
 variableNames = [
     ['GPP', 'NPP', 'NEP', 'NEE'],
