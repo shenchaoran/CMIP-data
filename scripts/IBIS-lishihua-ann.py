@@ -12,15 +12,9 @@ SITENUM = 40595
 DATA_HOME='/home/scr/Data'
 COOR_PATH = DATA_HOME + '/IBIS_Data/5b9012e4c29ca433443dcfab/IBIS_site_info.txt'
 
-BIOME_OUT_PATH = DATA_HOME + '/Biome_BGC_Data/5b9012e4c29ca433443dcfab/outputs'
-BIOME_OUT_SUFFIX = '.annual-avg.ascii'
-BIOME_NC_PATH = 'data/Biome-BGC-annual-out.nc'
-BIOME_ERR_PATH = 'data/Biome-BGC-error.log'
-
-IBIS_OUT_PATH = DATA_HOME + '/IBIS_Data/5b9012e4c29ca433443dcfab/outputs'
-IBIS_OUT_SUFFIX = '.annual.txt'
-# IBIS_OUT_SUFFIX = '.daily.txt'
-IBIS_NC_PATH = 'data/365-IBIS.nc'
+IBIS_OUT_PATH = DATA_HOME + '/IBIS_Data/5b9012e4c29ca433443dcfab/lishihua/Output/correct'
+IBIS_OUT_SUFFIX = '.txt'
+IBIS_NC_PATH = 'data/lishihua-ann-IBIS.nc'
 IBIS_ERR_PATH = 'data/IBIS-error.log'
 
 GRID_LENGTH = 0.5
@@ -35,33 +29,6 @@ TIME_END = TIME_START + TIME_SPAN
 
 lons = np.arange(LON_START, LON_END, GRID_LENGTH)
 lats = np.arange(LAT_START, LAT_END, GRID_LENGTH)
-
-def readNC():
-    dataset = nc.Dataset(BIOME_NC_PATH, 'r+', format='NETCDF4')
-
-    lonDimension = dataset.dimensions['long']
-    latDimension = dataset.dimensions['lat']
-    timeDimension = dataset.dimensions['time']
-
-    lonVariable = dataset.variables['long']
-    latVariable = dataset.variables['lat']
-    timeVariable = dataset.variables['time']
-    gppVariable = dataset.variables['GPP']
-    nppVariable = dataset.variables['NPP']
-    neeVariable = dataset.variables['NEE']
-
-    print(gppVariable.shape)
-
-    # timeVariable.datatype = 'f4'
-    # timeVariable.units = 'days since ' + str(TIME_START) + '-01-01'
-    # timeVariable.calendar = '365_day'
-
-    # lonVariable[:] = lons
-    # latVariable[:] = lats
-    # timeVariable[:] = [n * 365 for n in range(TIME_SPAN)]
-
-    dataset.close()
-    print('finished!')
 
 def writeNC():
     if path.exists(IBIS_NC_PATH):
@@ -78,8 +45,8 @@ def writeNC():
     timeVariable = dataset.createVariable("time", 'f4', ("time"))
 
     gppVariable = dataset.createVariable('GPP', 'f4', ('time', 'lat', 'long'), zlib=True, least_significant_digit=4)
-    # nppVariable = dataset.createVariable('NPP', 'f4', ('time', 'lat', 'long'), zlib=True, least_significant_digit=4)
-    # neeVariable = dataset.createVariable('NEE', 'f4', ('time', 'lat', 'long'), zlib=True, least_significant_digit=4)
+    nppVariable = dataset.createVariable('NPP', 'f4', ('time', 'lat', 'long'), zlib=True, least_significant_digit=4)
+    neeVariable = dataset.createVariable('NEE', 'f4', ('time', 'lat', 'long'), zlib=True, least_significant_digit=4)
 
     # gppVariable.set_auto_mask(True)
     # nppVariable.set_auto_mask(True)
@@ -96,28 +63,28 @@ def writeNC():
     latVariable = dataset.variables['lat']
     timeVariable = dataset.variables['time']
     gppVariable = dataset.variables['GPP']
-    # nppVariable = dataset.variables['NPP']
-    # neeVariable = dataset.variables['NEE']
+    nppVariable = dataset.variables['NPP']
+    neeVariable = dataset.variables['NEE']
 
     lonVariable.units = 'degrees_east'
     latVariable.units = 'degrees_north'
     timeVariable.units = 'days since ' + str(TIME_START) + '-01-01'
     timeVariable.calendar = '365_day'
-    gppVariable.units = 'kgC m-2 y-1'
+    # gppVariable.units = 'kgC m-2 y-1'
     # nppVariable.units = 'gC m-2 y-1'
     # neeVariable.units = 'gC m-2 y-1'
 
     lonVariable[:] = lons
     latVariable[:] = lats
     timeLen = TIME_SPAN
-    timeStep = 1
+    timeStep = 365
     timeVariable[:] = [n* timeStep for n in range(timeLen)]
 
     lanNum=int((LAT_END-LAT_START)/GRID_LENGTH)
     lonNum=int((LON_END-LON_START)/GRID_LENGTH)
     gpp = np.empty([TIME_SPAN, lanNum, lonNum])
-    # npp = np.empty([TIME_SPAN, lanNum, lonNum])
-    # nee = np.empty([TIME_SPAN, lanNum, lonNum])
+    npp = np.empty([TIME_SPAN, lanNum, lonNum])
+    nee = np.empty([TIME_SPAN, lanNum, lonNum])
     logFile = open(IBIS_ERR_PATH, 'w')
     for i in range(SITENUM):
         siteCoorStr = linecache.getline(COOR_PATH, i+1)
@@ -129,35 +96,37 @@ def writeNC():
         filepath = IBIS_OUT_PATH + '/' + str(i+1) + IBIS_OUT_SUFFIX
         if path.exists(filepath):
             try:
-                siteData = pandas.read_csv(filepath, sep='\s+', usecols=[1], header=None)
-                # siteData = pandas.read_csv(filepath, sep='\s+', usecols=[1, 2, 3], header=None)
-                # col1 = pandas.to_numeric(siteData.iloc[:, 0], errors='coerce').fillna(missing_value)
-                # col2 = pandas.to_numeric(siteData.iloc[:, 1], errors='coerce').fillna(missing_value)
-                # col3 = pandas.to_numeric(siteData.iloc[:, 2], errors='coerce').fillna(missing_value)
+                # siteData = pandas.read_csv(filepath, sep='\s+', usecols=[1], header=None)
+                siteData = pandas.read_csv(filepath, sep='\s+', usecols=[1, 2, 3], header=None)
                 col1 = pandas.to_numeric(siteData.iloc[:, 0], errors='coerce')
+                col2 = pandas.to_numeric(siteData.iloc[:, 1], errors='coerce')
+                col3 = pandas.to_numeric(siteData.iloc[:, 2], errors='coerce')
+                # col1 = pandas.to_numeric(siteData.iloc[:, 0], errors='coerce')
                 # col2 = pandas.to_numeric(siteData.iloc[:, 1], errors='coerce')
                 # col3 = pandas.to_numeric(siteData.iloc[:, 2], errors='coerce')
                 # gpp[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [0]]).reshape(32)
                 # npp[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [1]]).reshape(32)
                 # nee[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [2]]).reshape(32)
                 # gpp[:, latIndex, lonIndex] = np.resize(col1,timeLen).reshape(TIME_SPAN, -1).mean(axis=1)*1000
-                gpp[:, latIndex, lonIndex] = col1*1000
-                # npp[:, latIndex, lonIndex] = col2
-                # nee[:, latIndex, lonIndex] = col3
+                gpp[:, latIndex, lonIndex] = col1
+                npp[:, latIndex, lonIndex] = col2
+                nee[:, latIndex, lonIndex] = col3
                 print(i+1, SITENUM)
             except Exception as instance:
                 print(instance)
                 print('****** %s failed' % str(i+1))
                 logFile.write('%4s failed\n' % str(i+1))
     gppVariable[:] = gpp
-    # nppVariable[:] = npp
-    # neeVariable[:] = nee
+    nppVariable[:] = npp
+    neeVariable[:] = nee
 
     # gppVariable[:] = np.ma.masked_where((gppVariable[:] < 0) | (gppVariable[:] == 0) | (gppVariable[:] == missing_value), gppVariable)
     # nppVariable[:] = np.ma.masked_where((nppVariable[:] < 0) | (nppVariable[:] == 0) | (nppVariable[:] == missing_value), nppVariable)
     # neeVariable[:] = np.ma.masked_where((neeVariable[:] < -100) | (neeVariable[:] == 0) | (neeVariable[:] == missing_value), neeVariable)
     # 这里必须mask掉，要不然在geoserver里 海洋全部不透明
-    gppVariable[:] = np.ma.masked_where((gppVariable[:] <= 0), gppVariable)
+    gppVariable[:] = np.ma.masked_where((gppVariable[:] == 0), gppVariable)
+    nppVariable[:] = np.ma.masked_where((gppVariable[:] == 0), gppVariable)
+    neeVariable[:] = np.ma.masked_where((gppVariable[:] == 0), gppVariable)
     # nppVariable[:] = np.ma.masked_where((nppVariable[:] <= 0), nppVariable)
     # neeVariable[:] = np.ma.masked_where((neeVariable[:] == 0) | (neeVariable[:]>3000) | (neeVariable[:]<-3000), neeVariable)
     

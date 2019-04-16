@@ -25,11 +25,12 @@ df = pd.read_csv('./data/PFT_IBIS_global_0.5.txt', sep=',', header=None)
 pft[:] = df.transpose()
 pft[:] = np.ma.masked_where((pft[:] == -2), pft)
 
-m = Basemap(lat_0=lonVariable[:].mean(), lon_0=latVariable[:].mean())
+# kav7 eck4
+m = Basemap(projection='kav7', lat_0=lonVariable[:].mean(), lon_0=latVariable[:].mean())
 m.drawcoastlines(linewidth=.3)
 lon, lat = np.meshgrid(lonVariable[:], latVariable[:])
 xi, yi = m(lon, lat)
-cs = m.contourf(xi, yi, pft[:], np.arange(17)+1)
+cs = m.contourf(xi, yi, pft[:], np.arange(17)+1, cmap='viridis')
 
 fig.tight_layout()
 fig.subplots_adjust(left=.05, bottom=.05, top=.95, right=.75)
@@ -39,7 +40,7 @@ cbar = fig.colorbar(cs, cax=cbar_ax, orientation='vertical')
 cbar.ax.get_yaxis().set_ticks([])
 labels = {
     1: '热带常绿阔叶林',
-    2: '热带暗含落叶阔叶',
+    2: '热带干旱落叶阔叶',
     3: '温带常绿阔叶林',
     4: '温带常绿针叶林',
     5: '温带冷干旱阔叶林',
@@ -58,7 +59,7 @@ labels = {
 for i in (np.arange(16)+1):
     cbar.ax.text(1.35, (i-.52)/16, labels[i], ha='left', va='center')
 
-plt.savefig('figure/PFT.jpg')
+plt.savefig('figure/PFT-IBIS.jpg')
 plt.close('all')
 
 dataset.close()

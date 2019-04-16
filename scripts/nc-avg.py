@@ -9,16 +9,6 @@ import linecache
 import time
 
 SITENUM = 40595
-DATA_HOME='/home/scr/Data'
-COOR_PATH = DATA_HOME + '/IBIS_Data/5b9012e4c29ca433443dcfab/IBIS_site_info.txt'
-
-BIOME_OUT_PATH = DATA_HOME + '/Biome_BGC_Data/5b9012e4c29ca433443dcfab/outputs'
-BIOME_OUT_SUFFIX = '.annual-avg.ascii'
-BIOME_NC_PATH = 'Biome-BGC-annual-output.nc'
-
-IBIS_OUT_PATH = DATA_HOME + '/IBIS_Data/5b9012e4c29ca433443dcfab/outputs'
-IBIS_OUT_SUFFIX = '.annual.txt'
-IBIS_NC_PATH = 'IBIS-annual-out.nc'
 
 GRID_LENGTH = 0.5
 LON_START = -179.75
@@ -36,27 +26,6 @@ latNum=int((LAT_END-LAT_START)/GRID_LENGTH)
 lonNum=int((LON_END-LON_START)/GRID_LENGTH)
 
 folder = '/home/scr/Data/scripts/data/'
-
-def readNC():
-    srcDataset = nc.Dataset(BIOME_NC_PATH, 'r+', format='NETCDF4')
-
-    lonDimension = srcDataset.dimensions['long']
-    latDimension = srcDataset.dimensions['lat']
-    timeDimension = srcDataset.dimensions['time']
-
-    lonVariable = srcDataset.variables['long']
-    latVariable = srcDataset.variables['lat']
-    timeVariable = srcDataset.variables['time']
-    gppVariable = srcDataset.variables['GPP']
-    nppVariable = srcDataset.variables['NPP']
-    nepVariable = srcDataset.variables['NEP']
-    neeVariable = srcDataset.variables['NEE']
-
-    print(gppVariable.shape)
-
-    srcDataset.close()
-    print('finished!')
-
 # def statByLat():
 
 # [1982, 2013]
@@ -87,16 +56,16 @@ def annualAvg(srcFname, distFname, variableNames, yearIndex, scales):
             .reshape(14*yearIndex[2], latNum, lonNum) \
             .mean(axis=0)*scales[i]
         vari[:] = meaned.reshape(latNum,lonNum)
-        vari[:] = np.ma.masked_where((vari[:] == 0), vari)
+        # vari[:] = np.ma.masked_where((vari[:] == 0), vari)
     
     srcDataset.close()
     distDataset.close()
     print('finished!')
 
 srcFnames = [
-    'annual-Biome-BGC.nc',
-    'annual-IBIS.nc',
-    'annual-LPJ.nc',
+    '365-Biome-BGC.nc',
+    '365-IBIS.nc',
+    '365-LPJ.nc',
     '8-MOD17A2.nc'
 ]
 distFnames = [
@@ -106,17 +75,30 @@ distFnames = [
     '2000-2013-avg-MOD17A2.nc'
 ]
 variableNames = [
-    ['GPP', 'NPP', 'NEP', 'NEE'],
-    ['GPP', 'NPP', 'NEE'],
-    ['GPP', 'NPP'],
+    ['GPP'],
+    ['GPP'],
+    ['GPP'],
     ['GPP']
 ]
 scales = [
-    [.001, .001, .001, .001],
-    [.001/2.5, .001/2.5, .001/2.5],
-    [.001, .001],
+    [1],
+    [1],
+    [1],
     [.365]
 ]
+# variableNames = [
+#     ['GPP', 'NPP', 'NEP', 'NEE'],
+#     ['GPP', 'NPP', 'NEE'],
+#     ['GPP', 'NPP'],
+#     ['GPP']
+# ]
+# scales = [
+#     [.365, .365, .365, .365],
+#     # [.001/2.5, .001/2.5, .001/2.5],
+#     [.365, .365, .365],
+#     [.365, .365],
+#     [.365]
+# ]
 yearIndexs = [
     [18, 32, 1],
     [18, 32, 1],
@@ -127,4 +109,5 @@ yearIndexs = [
 for i in range(len(srcFnames)):
     annualAvg(srcFnames[i], distFnames[i], variableNames[i], yearIndexs[i], scales[i])
 
-# annualAvg(srcFnames[3], distFnames[3], variableNames[3])
+# i=0
+# annualAvg(srcFnames[i], distFnames[i], variableNames[i], yearIndexs[i], scales[i])

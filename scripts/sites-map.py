@@ -16,8 +16,12 @@ fig = plt.figure(figsize=(10, 5), dpi=100)
 m = Basemap(lat_0=0, lon_0=0)
 m.drawcoastlines(linewidth=.4)
 m.drawcountries(linewidth=.3)
-m.drawparallels(np.arange(-90., 91., 30.), labels=[1,0,0,0], fontsize=8)
-m.drawmeridians(np.arange(-180., 181., 40.), labels=[0,0,0,1], fontsize=8)
+# m.fillcontinents(color='gray',lake_color='gray')
+# m.drawlsmask(land_color = "#1a1a1a", ocean_color="#80b7e0", fontsize=12, linewidth=.2)
+# m.drawlsmask()
+m.drawparallels(np.arange(0., 1., 1.), color='lightgrey', dashes=[1,0], fontsize=12, linewidth=.8, labels=[False])
+m.drawparallels(np.arange(-90., 91., 30.), labels=[1,0,0,0], fontsize=12, linewidth=.3)
+m.drawmeridians(np.arange(-180., 181., 40.), labels=[0,0,0,1], fontsize=12, linewidth=.3)
 
 f = open('./data/sites-stat.json', mode='r')
 stats = json.load(f)
@@ -49,11 +53,16 @@ df_9 = df[((df['length'] >= 10) & (df['length'] < 15))]
 df_12 = df[((df['length'] >= 15) & (df['length'] < 20))]
 df_r = df[(df['length'] >= 20)]
 
-m.scatter(df_3['lon'], df_3['lat'], c='forestgreen', s=10, label='0-5 year')
-m.scatter(df_6['lon'], df_6['lat'], c='orange', s=16, label='5-10 year')
-m.scatter(df_9['lon'], df_9['lat'], c='coral', s=36, label='10-15 year')
-m.scatter(df_12['lon'], df_12['lat'], c='red', s=45, label='15-20 year')
-m.scatter(df_r['lon'], df_r['lat'], c='darkred', s=63, label='> 20 year')
+# m.scatter(df_3['lon'], df_3['lat'], c='forestgreen', s=10, label='0-5 year')
+# m.scatter(df_6['lon'], df_6['lat'], c='orange', s=16, label='5-10 year')
+# m.scatter(df_9['lon'], df_9['lat'], c='coral', s=36, label='10-15 year')
+# m.scatter(df_12['lon'], df_12['lat'], c='red', s=45, label='15-20 year')
+# m.scatter(df_r['lon'], df_r['lat'], c='darkred', s=63, label='> 20 year')
+m.scatter(df_3['lon'], df_3['lat'], c='lawngreen', s=9, label='1-5 年')
+m.scatter(df_6['lon'], df_6['lat'], c='yellow', s=16, label='5-10 年')
+m.scatter(df_9['lon'], df_9['lat'], c='orange', s=25, label='10-15 年')
+m.scatter(df_12['lon'], df_12['lat'], c='red', s=36, label='15-20 年')
+m.scatter(df_r['lon'], df_r['lat'], c='maroon', s=49, label='> 20 年')
 
 
 plt.legend()
