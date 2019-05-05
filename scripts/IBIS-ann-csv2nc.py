@@ -10,17 +10,12 @@ import time
 
 SITENUM = 40595
 DATA_HOME='/home/scr/Data'
-COOR_PATH = DATA_HOME + '/IBIS_Data/5b9012e4c29ca433443dcfab/IBIS_site_info.txt'
-
-BIOME_OUT_PATH = DATA_HOME + '/Biome_BGC_Data/5b9012e4c29ca433443dcfab/outputs'
-BIOME_OUT_SUFFIX = '.annual-avg.ascii'
-BIOME_NC_PATH = 'data/Biome-BGC-annual-out.nc'
-BIOME_ERR_PATH = 'data/Biome-BGC-error.log'
+COOR_PATH = DATA_HOME + '/IBIS_Data/5b9012e4c29ca433443dcfab/BGC_veg_byIBIS_full.crop.txt'
 
 IBIS_OUT_PATH = DATA_HOME + '/IBIS_Data/5b9012e4c29ca433443dcfab/outputs'
 IBIS_OUT_SUFFIX = '.annual.txt'
 # IBIS_OUT_SUFFIX = '.daily.txt'
-IBIS_NC_PATH = 'data/365-IBIS.nc'
+IBIS_NC_PATH = 'data/365-ann-IBIS-2.nc'
 IBIS_ERR_PATH = 'data/IBIS-error.log'
 
 GRID_LENGTH = 0.5
@@ -35,33 +30,6 @@ TIME_END = TIME_START + YEAR_NUM
 
 LONS = np.arange(LON_START, LON_END, GRID_LENGTH)
 LATS = np.arange(LAT_START, LAT_END, GRID_LENGTH)
-
-def readNC():
-    dataset = nc.Dataset(BIOME_NC_PATH, 'r+', format='NETCDF4')
-
-    lonDimension = dataset.dimensions['long']
-    latDimension = dataset.dimensions['lat']
-    timeDimension = dataset.dimensions['time']
-
-    lonVariable = dataset.variables['long']
-    latVariable = dataset.variables['lat']
-    timeVariable = dataset.variables['time']
-    gppVariable = dataset.variables['GPP']
-    nppVariable = dataset.variables['NPP']
-    neeVariable = dataset.variables['NEE']
-
-    print(gppVariable.shape)
-
-    # timeVariable.datatype = 'f4'
-    # timeVariable.units = 'days since ' + str(TIME_START) + '-01-01'
-    # timeVariable.calendar = '365_day'
-
-    # lonVariable[:] = LONS
-    # latVariable[:] = LATS
-    # timeVariable[:] = [n * 365 for n in range(YEAR_NUM)]
-
-    dataset.close()
-    print('finished!')
 
 def writeNC():
     if path.exists(IBIS_NC_PATH):
@@ -110,7 +78,7 @@ def writeNC():
     lonVariable[:] = LONS
     latVariable[:] = LATS
     timeLen = YEAR_NUM
-    timeStep = 1
+    timeStep = 365
     timeVariable[:] = [n* timeStep for n in range(timeLen)]
 
     lanNum=int((LAT_END-LAT_START)/GRID_LENGTH)
@@ -122,10 +90,12 @@ def writeNC():
     for i in range(SITENUM):
         siteCoorStr = linecache.getline(COOR_PATH, i+1)
         lonLat = re.split('\s+', siteCoorStr)
-        siteLon = float(lonLat[0])
-        siteLat = float(lonLat[1])
-        lonIndex = int((siteLon - LON_START) / 0.5)
-        latIndex = int((siteLat - LAT_START) / 0.5)
+        # siteLon = float(lonLat[0])
+        # siteLat = float(lonLat[1])
+        # lonIndex = int((siteLon - LON_START) / 0.5)
+        # latIndex = int((siteLat - LAT_START) / 0.5)
+        lonIndex = int(lonLat[0])
+        latIndex = int(lonLat[1])
         filepath = IBIS_OUT_PATH + '/' + str(i+1) + IBIS_OUT_SUFFIX
         if path.exists(filepath):
             try:
@@ -141,7 +111,7 @@ def writeNC():
                 # npp[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [1]]).reshape(32)
                 # nee[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [2]]).reshape(32)
                 # gpp[:, latIndex, lonIndex] = np.resize(col1,timeLen).reshape(YEAR_NUM, -1).mean(axis=1)*1000
-                gpp[:, latIndex, lonIndex] = col1*1000
+                gpp[:, latIndex, lonIndex] = col1/1000
                 # npp[:, latIndex, lonIndex] = col2
                 # nee[:, latIndex, lonIndex] = col3
                 print(i+1, SITENUM)

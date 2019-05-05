@@ -32,9 +32,9 @@ const invokeModel = async (i) => {
                 js,
                 '-a',
                 `--i=${stdPath}/ini/${i}.ini`,
-                `--m=${stdPath}/metdata/${i}.mtc43`,
-                `--ri=${stdPath}/restart/${i}.endpoint`,
-                `--ro=${stdPath}/restart/${i}.endpoint`,
+                `--m=${stdPath}/met/${i}.mtc43`,
+                `--ri=${stdPath}/outputs/${i}.endpoint`,
+                `--ro=${stdPath}/outputs/${i}.endpoint`,
                 `--co2=${stdPath}/co2/co2.txt`,
                 `--epc=${stdPath}/epc/${epc}.epc`,
                 `--o=${stdPath}/outputs/${i}`,
@@ -72,7 +72,7 @@ try {
     // invokeModel(1)
 
     let files = Array(SUM).fill(1).map((v, i) => v+i)
-    Bluebird.map(files, invokeModel, { concurrency: 8 }).then(async v => {
+    Bluebird.map(files, invokeModel, { concurrency: 20 }).then(async v => {
         let logPath = path.join(stdPath, 'batch.log')
         await fs.writeFileAsync(logPath, JSON.stringify(failedList), 'utf8')
         console.log('finished!')

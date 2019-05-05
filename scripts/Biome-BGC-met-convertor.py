@@ -25,12 +25,12 @@ LON_END = 179.75 + GRID_LENGTH
 LAT_START = -54.75
 LAT_END = 82.25 + GRID_LENGTH
 
-TIME_SPAN = 32 * 365
+YEAR_NUM = 32 * 365
 TIME_START = 1982
-TIME_END = TIME_START + TIME_SPAN
+TIME_END = TIME_START + YEAR_NUM
 
-lons = np.arange(LON_START, LON_END, GRID_LENGTH)
-lats = np.arange(LAT_START, LAT_END, GRID_LENGTH)
+LONS = np.arange(LON_START, LON_END, GRID_LENGTH)
+LATS = np.arange(LAT_START, LAT_END, GRID_LENGTH)
 
 
 def writeNC():
@@ -39,8 +39,8 @@ def writeNC():
 
     dataset = nc.Dataset(NC_PATH, 'w', format='NETCDF4')
 
-    lonDimension = dataset.createDimension('long', len(lons))
-    latDimension = dataset.createDimension('lat', len(lats))
+    lonDimension = dataset.createDimension('long', len(LONS))
+    latDimension = dataset.createDimension('lat', len(LATS))
     timeDimension = dataset.createDimension('time', None)
 
     lonVariable = dataset.createVariable("long", 'f4', ("long"))
@@ -76,9 +76,9 @@ def writeNC():
     daylenVariable.set_auto_mask(False)
 
 
-    lonVariable[:] = lons
-    latVariable[:] = lats
-    timeVariable[:] = np.arange(0, TIME_SPAN, 1)
+    lonVariable[:] = LONS
+    latVariable[:] = LATS
+    timeVariable[:] = np.arange(0, YEAR_NUM, 1)
 
     for i in range(SITENUM):
         siteCoorStr = linecache.getline(COOR_PATH, i+1)
@@ -91,13 +91,13 @@ def writeNC():
         filepath = MET_PATH + '/' + str(i+1) + MET_SUFFIX
         if path.exists(filepath):
             siteData = pandas.read_csv(filepath, sep='\s+', usecols=np.arange(2, 9), header=3)
-            tminVariable[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [0]]).reshape(TIME_SPAN)
-            tdayVariable[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [1]]).reshape(TIME_SPAN)
-            tmaxVariable[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [2]]).reshape(TIME_SPAN)
-            prcpVariable[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [3]]).reshape(TIME_SPAN)
-            vpdVariable[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [4]]).reshape(TIME_SPAN)
-            sradVariable[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [5]]).reshape(TIME_SPAN)
-            daylenVariable[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [6]]).reshape(TIME_SPAN)
+            tminVariable[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [0]]).reshape(YEAR_NUM)
+            tdayVariable[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [1]]).reshape(YEAR_NUM)
+            tmaxVariable[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [2]]).reshape(YEAR_NUM)
+            prcpVariable[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [3]]).reshape(YEAR_NUM)
+            vpdVariable[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [4]]).reshape(YEAR_NUM)
+            sradVariable[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [5]]).reshape(YEAR_NUM)
+            daylenVariable[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [6]]).reshape(YEAR_NUM)
             print(i+1, SITENUM)
     dataset.close()
     print('finished!')

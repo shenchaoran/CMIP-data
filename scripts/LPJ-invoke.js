@@ -6,11 +6,12 @@ const setting = require('../setting')
 const exec = child_process.exec
 const spawn = child_process.spawn
 const stdId = '5b9012e4c29ca433443dcfab'
-const stdPath = path.join(__dirname, `../IBIS_Data/${stdId}`)
-const logPath = path.join(__dirname, './logs/IBIS-invoke-failed.log')
+const stdPath = path.join(__dirname, `../LPJ/${stdId}`)
 
 let count = 0
 const SUM = 40595
+const start = 40595
+const end = 61353
 let failedList = new Set()
 let core = 8
 
@@ -26,42 +27,37 @@ if(process.argv.length > 2) {
 const invokeModel = async (i) => {
     try {
         try {
-            // let err = new Error('file size is 0')
-            // err.code = 'ENOENT'
-            // throw err
-
-            let fpath = path.join(stdPath, 'outputs', `${i}.state.txt`)
+            let fpath = path.join(stdPath, 'outputs', `${i}.daily.ascii`)
             await fs.accessAsync(fpath, fs.constants.F_OK)
             let stat = await fs.statAsync(fpath)
-            // console.log(stat.size)
             if(stat.size === 0 || stat.size === '0n' || stat.size === '0') {
-                // console.log('file size is 0')
                 let err = new Error('file size is 0')
                 err.code = 'ENOENT'
                 throw err
             }
-
-            count++;
-            if(count%20 === 0)
-                console.info(count*100/SUM + '%');
         }
         catch(e){
             if(e.code === 'ENOENT') {
                 let paras = [
-                    `--met=${stdPath}/met/${i}_proced.csv`,
-                    `--site=${stdPath}/site/${i}.txt`,
-                    `--do=${stdPath}/outputs/${i}.daily.txt`,
-                    `--ao=${stdPath}/outputs/${i}.annual.txt`,
-                    `--stat=${stdPath}/outputs/${i}.state.txt`,
-                    '--spinup=100'
+                    `--config=${stdPath}/config.txt`,
+                    `--outfile=${stdPath}/outputs/${i}.daily.ascii`,
+                    `--grid=${stdPath}/grid/${i}_grid.ascii`,
+                    `--soil=${stdPath}/soil/${i}_soil.ascii`,
+                    `--co2=${stdPath}/co2-1982-2013.txt`,
+                    `--temp=${stdPath}/met/temp/${i}_temp.ascii`,
+                    `--prec=${stdPath}/met/prec/${i}_prec.ascii`,
+                    `--cloud=${stdPath}/met/cld/${i}_cld.ascii`,
+                    `--dayl=${stdPath}/dayl.ascii`,
                 ]
-                const cp = spawn(path.join(__dirname, '../IBIS_Data/IBIS'), paras)
+                // console.log(paras)
+                const cp = spawn(path.join(__dirname, '../LPJ/LPJ'), paras)
+                // console.log('start')
                 return new Bluebird((resolve, reject) => {
                     cp.stdout.on('data', data => {
                         // console.log(data.toString())
                     })
                     cp.stderr.on('data', err => {
-                        // console.error(err.toString())
+                        // console.error(data.toString())
                     })
                     cp.on('close', code => {
                         count++;
@@ -84,38 +80,21 @@ const invokeModel = async (i) => {
     }
 }
 
-var invokeOne = async i => invokeModel(i)
-var invokeBatch = async () => {
-    let files = Array(SUM).fill(1).map((v, i) => v+i)
-    return Bluebird.map(files, invokeModel, { concurrency: core }).then(async v => {
-        await fs.writeFileAsync(logPath, JSON.stringify(Array.from(failedList)), 'utf8')
-        console.log('finished!')
-    })
-    .catch(e => {
-        console.error(e)
-    })
-}
-var invokeError = async () => {
+let main = async () => {
     try {
-        let str = await fs.readFile(logPath, 'utf8')
-        let files = str.match(/\d+/g)
-        return Bluebird.map(files, invokeModel, { concurrency: core }).then(async v => {
-            await fs.writeFileAsync(logPath, JSON.stringify(Array.from(failedList)), 'utf8')
-            console.log('finished!')
-        })
-        .catch(e => {
-            console.error(e)
-        })
+        // await invokeModel(1)
+    
+        let files = Array(end - start + 1).fill(start).map((v, i) => v+i)
+        // let str = await fs.readFile(path.join(__dirname, 'data/LPJ-error.log'), 'utf8')
+        // let files = str.match(/\d+/g)
+        await Bluebird.map(files, invokeModel, { concurrency: core })
+        let logPath = path.join(stdPath, 'batch.log')
+        await fs.writeFileAsync(logPath, JSON.stringify(failedList), 'utf8')
+        console.log('finished!')
     }
     catch(e) {
-        
+        console.error(e)
     }
+    
 }
-
-var main = async () => {
-    // invokeOne(40)
-    invokeBatch()
-    // invokeError()
-}
-
 main()

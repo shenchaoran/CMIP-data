@@ -29,18 +29,36 @@ ${p3}`;
 
         if(type !== 'spinup') {
             str = str.replace(/(DAILY_OUTPUT.*\n)([\s\S]*?)(.*\nEND_INIT)/m, (match, p1, p2, p3, offset, str) => {
-                return `${p1}4    (int) number of daily variables to output
-623    0 gpp;
-620    1 npp;
-621    2 nep;
-622    3 nee;
+                return `${p1}13    (int) number of daily variables to output
+42      1       soilw_evap;     /* (kgH2O/m2/d) evaporation from soil */
+509     4       proj_lai;       /* (DIM) live projected leaf area index */
+510     5       all_lai;        /* (DIM) live all-sided leaf area index */
+620     6       daily_npp;      /* kgC/m2/day = GPP - Rmaint - Rgrowth */
+621     7       daily_nep;      /* kgC/m2/day = NPP - Rheterotroph */
+622     8       daily_nee;      /* kgC/m2/day = NEP - fire losses */
+623     9       daily_gpp;      /* kgC/m2/day  gross PSN source */
+624     10      daily_mr;       /* kgC/m2/day  maintenance respiration */
+625     11      daily_gr;       /* kgC/m2/day  growth respiration */
+626     12      daily_hr;       /* kgC/m2/day  heterotrophic respiration */
+628     14      daily_litfallc; /* kgC/m2/day  total litterfall */
+629     15      daily_et;       /* kgW/m2/day daily evapotranspiration */
+631     17      daily_trans;    /* kgW/m2/day daily transpiration */
 
 ANNUAL_OUTPUT    (keyword)
-4    (int)   number of annual output variables
-623    0 gpp;
-620    1 npp;
-621    2 nep;
-622    3 nee;
+13    (int)   number of annual output variables
+42      1       soilw_evap;     /* (kgH2O/m2/d) evaporation from soil */
+509     4       proj_lai;       /* (DIM) live projected leaf area index */
+510     5       all_lai;        /* (DIM) live all-sided leaf area index */
+620     6       daily_npp;      /* kgC/m2/day = GPP - Rmaint - Rgrowth */
+621     7       daily_nep;      /* kgC/m2/day = NPP - Rheterotroph */
+622     8       daily_nee;      /* kgC/m2/day = NEP - fire losses */
+623     9       daily_gpp;      /* kgC/m2/day  gross PSN source */
+624     10      daily_mr;       /* kgC/m2/day  maintenance respiration */
+625     11      daily_gr;       /* kgC/m2/day  growth respiration */
+626     12      daily_hr;       /* kgC/m2/day  heterotrophic respiration */
+628     14      daily_litfallc; /* kgC/m2/day  total litterfall */
+629     15      daily_et;       /* kgW/m2/day daily evapotranspiration */
+631     17      daily_trans;    /* kgW/m2/day daily transpiration */
 ${p3}`
             })
         }
@@ -64,8 +82,8 @@ ${p3}`
 try {
     let files = Array(40595).fill(1).map((v, i) => v+i)
     Bluebird.map(files, file => {
-        return convertINI(file, 'spinup')
-    }, { concurrency: 1000 }).then(v => {
+        return convertINI(file, 'normal')
+    }, { concurrency: 500 }).then(v => {
         console.log('finished!')
     })
     .catch(e => {
