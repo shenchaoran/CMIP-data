@@ -22,3 +22,8 @@ scripts/logs/ibis-invoke.log
 /scripts/logs
 /scripts/data
 scripts/nohup.out
+SRTM/srtm_se_250m_tif.rar
+ArcMAP/osm.osm
+SRTM/n00e090.zip
+SRTM/srtm_ne_250m_tif.rar
+SRTM/srtm_w_250m_tif.rar

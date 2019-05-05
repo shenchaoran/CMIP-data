@@ -2,7 +2,7 @@ const path = require('path')
 const Bluebird = require('bluebird')
 const fs = Bluebird.promisifyAll(require('fs'))
 const _ = require('lodash')
-let fluxnetSites = require('./obs-sites.js')
+let fluxnetSites = require('./FLUXNET2015-sites-db.js')
 const child_process = require('child_process')
 
 const obsFolder = 'E:/Data/CMIP/FLUXNET/LaThuile'
@@ -131,7 +131,7 @@ let sites = fn()
             }
         })
 
-        let features = sites.map(site => {
+        let features = validSites.map(site => {
             return {
                 type: 'Feature',
                 geometry: {

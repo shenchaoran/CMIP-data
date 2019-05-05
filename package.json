@@ -10,6 +10,7 @@
     "bluebird": "^3.5.3",
     "colormap": "^2.3.0",
     "lodash": "^4.17.10",
-    "moment": "^2.22.1"
+    "moment": "^2.22.1",
+    "mongoose": "^5.4.3"
   }
 }
