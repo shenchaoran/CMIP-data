@@ -25,15 +25,7 @@ if(process.argv.length > 2) {
 const invokeModel = async (i) => {
     try {
         try {
-            let fpath = path.join(stdPath, 'outputs', `${i}.state.txt`)
-            await fs.accessAsync(fpath, fs.constants.F_OK)
-            let stat = await fs.statAsync(fpath)
-            console.log(stat.size)
-            if(stat.size === 0 || stat.size === '0n' || stat.size === '0') {
-                let err = new Error('file size is 0')
-                err.code = 'ENOENT'
-                throw err
-            }
+            await fs.accessAsync(path.join(stdPath, 'outputs', `${i}.daily.txt`), fs.constants.F_OK)
         }
         catch(e){
             if(e.code === 'ENOENT') {
@@ -76,17 +68,17 @@ const invokeModel = async (i) => {
 
 try {
 
-     invokeModel(15109)
+    // invokeModel(1)
 
-//    let files = Array(SUM).fill(1).map((v, i) => v+i)
-  //  Bluebird.map(files, invokeModel, { concurrency: core }).then(async v => {
-   //     let logPath = path.join(stdPath, 'batch.log')
-    //    await fs.writeFileAsync(logPath, JSON.stringify(failedList), 'utf8')
-     //   console.log('finished!')
-//    })
- //   .catch(e => {
-  //      console.error(e)
-   // })
+    let files = Array(SUM).fill(1).map((v, i) => v+i)
+    Bluebird.map(files, invokeModel, { concurrency: core }).then(async v => {
+        let logPath = path.join(stdPath, 'batch.log')
+        await fs.writeFileAsync(logPath, JSON.stringify(failedList), 'utf8')
+        console.log('finished!')
+    })
+    .catch(e => {
+        console.error(e)
+    })
 }
 catch(e) {
     console.error(e)
