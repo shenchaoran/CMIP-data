@@ -22,7 +22,9 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["Biome-BGC", "32", "average"]
+            "args": [
+                "--model=IBIS"
+            ]
         },
         {
             "type": "node",

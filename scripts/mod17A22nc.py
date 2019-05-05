@@ -18,8 +18,8 @@ LAT_START = -54.75
 LAT_END = 82.25 + GRID_LENGTH
 scale = 0.1/interval
 
-lons = np.arange(LON_START, LON_END, GRID_LENGTH)
-lats = np.arange(LAT_START, LAT_END, GRID_LENGTH)
+LONS = np.arange(LON_START, LON_END, GRID_LENGTH)
+LATS = np.arange(LAT_START, LAT_END, GRID_LENGTH)
 
 def readNC():
     dataset = Dataset(ncPath, 'r+', format='NETCDF4')
@@ -37,9 +37,9 @@ def readNC():
     # timeVariable.units = 'days since ' + str(TIME_START) + '-01-01'
     # timeVariable.calendar = '365_day'
 
-    # lonVariable[:] = lons
-    # latVariable[:] = lats
-    # timeVariable[:] = [n * 365 for n in range(TIME_SPAN)]
+    # lonVariable[:] = LONS
+    # latVariable[:] = LATS
+    # timeVariable[:] = [n * 365 for n in range(YEAR_NUM)]
     # gppVariable.units = ''
 
     dataset.close()
@@ -48,8 +48,8 @@ def readNC():
 def writeNC():
     dataset = Dataset(ncPath, 'w', format='NETCDF4')
 
-    lonDimension = dataset.createDimension('long', len(lons))
-    latDimension = dataset.createDimension('lat', len(lats))
+    lonDimension = dataset.createDimension('long', len(LONS))
+    latDimension = dataset.createDimension('lat', len(LATS))
     timeDimension = dataset.createDimension('time', None)
 
     lonVariable = dataset.createVariable("long", 'f4', ("long"))

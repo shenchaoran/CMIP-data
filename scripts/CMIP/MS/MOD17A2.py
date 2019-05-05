@@ -1,0 +1,40 @@
+from CMIP import *
+
+class MOD17A2:
+    daily_cols = [
+        {
+            "id": "GPP",
+            "metricName": "daily-average-GPP",
+            "scale": 1.0,
+            "offset": 0.0,
+            "type": "number[]",
+            "description": "",
+            "unit": "gC m-2 d-1"
+        }
+    ]
+    annual_cols = daily_cols
+    month_cols = daily_cols
+    def __init__(self, time):
+        self.time = time
+        self.name = 'MOD17A2'
+
+    @property
+    def cols(self):
+        if self.time == 'annual':
+            return MOD17A2.annual_cols
+        elif self.time == 'month':
+            return MOD17A2.month_cols
+        elif self.time == 'daily':
+            return MOD17A2.daily_cols
+
+    def getCol(self, metricName):
+        return next(item for item in self.cols if item['metricName'] == metricName)
+
+    def annual_max(self, feature):
+        d = {
+            'daily-average-GPP': 3.25
+        }
+        return d[feature]
+
+    def annual_min(self, feature):
+        return 0

@@ -34,12 +34,12 @@ LAT_END = 82.25 + GRID_LENGTH
 LAT_COUNT = (LAT_END-LAT_START)/GRID_LENGTH
 LON_COUNT = (LON_END-LON_START)/GRID_LENGTH
 
-TIME_SPAN = 32
+YEAR_NUM = 32
 TIME_START = 1982
-TIME_END = TIME_START + TIME_SPAN
+TIME_END = TIME_START + YEAR_NUM
 
-lons = np.arange(LON_START, LON_END, GRID_LENGTH)
-lats = np.arange(LAT_START, LAT_END, GRID_LENGTH)
+LONS = np.arange(LON_START, LON_END, GRID_LENGTH)
+LATS = np.arange(LAT_START, LAT_END, GRID_LENGTH)
 
 def readNC():
     # chmod(LPJ_NC_PATH, stat.S_IRWXU)
@@ -65,9 +65,9 @@ def readNC():
     # timeVariable.units = 'days since ' + str(TIME_START) + '-01-01'
     # timeVariable.calendar = '365_day'
 
-    # lonVariable[:] = lons
-    # latVariable[:] = lats
-    # timeVariable[:] = [n * 365 for n in range(TIME_SPAN)]
+    # lonVariable[:] = LONS
+    # latVariable[:] = LATS
+    # timeVariable[:] = [n * 365 for n in range(YEAR_NUM)]
 
     dataset.close()
     print('finished!')
@@ -81,8 +81,8 @@ def writeNC():
 
     dataset = nc.Dataset(LPJ_NC_PATH, 'w', format='NETCDF4')
 
-    lonDimension = dataset.createDimension('long', len(lons))
-    latDimension = dataset.createDimension('lat', len(lats))
+    lonDimension = dataset.createDimension('long', len(LONS))
+    latDimension = dataset.createDimension('lat', len(LATS))
     timeDimension = dataset.createDimension('time', None)
 
     lonVariable = dataset.createVariable("long", 'f4', ("long"))
@@ -116,14 +116,14 @@ def writeNC():
     timeVariable.units = 'days since ' + str(TIME_START) + '-01-01'
     timeVariable.calendar = '365_day'
 
-    lonVariable[:] = lons
-    latVariable[:] = lats
-    timeVariable[:] = [n*365 for n in range(TIME_SPAN)]
+    lonVariable[:] = LONS
+    latVariable[:] = LATS
+    timeVariable[:] = [n*365 for n in range(YEAR_NUM)]
 
     lanNum=int((LAT_END-LAT_START)/GRID_LENGTH)
-    lonNum=int((LON_END-LON_START)/GRID_LENGTH)
-    gpp = np.empty([TIME_SPAN, lanNum, lonNum])
-    npp = np.empty([TIME_SPAN, lanNum, lonNum])
+    LON_NUM=int((LON_END-LON_START)/GRID_LENGTH)
+    gpp = np.empty([YEAR_NUM, lanNum, LON_NUM])
+    npp = np.empty([YEAR_NUM, lanNum, LON_NUM])
     for i in range(SITENUM):
         siteCoorStr = linecache.getline(grid_path + str(i + 1) + grid_suffix , 1)
         lonLat = re.split('\s+', siteCoorStr)

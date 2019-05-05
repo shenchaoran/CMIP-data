@@ -29,12 +29,12 @@ LON_END = 179.75 + GRID_LENGTH
 LAT_START = -54.75
 LAT_END = 82.25 + GRID_LENGTH
 
-TIME_SPAN = 32
+YEAR_NUM = 32
 TIME_START = 1982
-TIME_END = TIME_START + TIME_SPAN
+TIME_END = TIME_START + YEAR_NUM
 
-lons = np.arange(LON_START, LON_END, GRID_LENGTH)
-lats = np.arange(LAT_START, LAT_END, GRID_LENGTH)
+LONS = np.arange(LON_START, LON_END, GRID_LENGTH)
+LATS = np.arange(LAT_START, LAT_END, GRID_LENGTH)
 
 def readNC():
     dataset = nc.Dataset(BIOME_NC_PATH, 'r+', format='NETCDF4')
@@ -56,9 +56,9 @@ def readNC():
     # timeVariable.units = 'days since ' + str(TIME_START) + '-01-01'
     # timeVariable.calendar = '365_day'
 
-    # lonVariable[:] = lons
-    # latVariable[:] = lats
-    # timeVariable[:] = [n * 365 for n in range(TIME_SPAN)]
+    # lonVariable[:] = LONS
+    # latVariable[:] = LATS
+    # timeVariable[:] = [n * 365 for n in range(YEAR_NUM)]
 
     dataset.close()
     print('finished!')
@@ -69,8 +69,8 @@ def writeNC():
 
     dataset = nc.Dataset(IBIS_NC_PATH, 'w', format='NETCDF4')
 
-    lonDimension = dataset.createDimension('long', len(lons))
-    latDimension = dataset.createDimension('lat', len(lats))
+    lonDimension = dataset.createDimension('long', len(LONS))
+    latDimension = dataset.createDimension('lat', len(LATS))
     timeDimension = dataset.createDimension('time', None)
 
     lonVariable = dataset.createVariable("long", 'f4', ("long"))
@@ -107,17 +107,17 @@ def writeNC():
     # nppVariable.units = 'gC m-2 y-1'
     # neeVariable.units = 'gC m-2 y-1'
 
-    lonVariable[:] = lons
-    latVariable[:] = lats
-    timeLen = TIME_SPAN
+    lonVariable[:] = LONS
+    latVariable[:] = LATS
+    timeLen = YEAR_NUM
     timeStep = 1
     timeVariable[:] = [n* timeStep for n in range(timeLen)]
 
     lanNum=int((LAT_END-LAT_START)/GRID_LENGTH)
-    lonNum=int((LON_END-LON_START)/GRID_LENGTH)
-    gpp = np.empty([TIME_SPAN, lanNum, lonNum])
-    # npp = np.empty([TIME_SPAN, lanNum, lonNum])
-    # nee = np.empty([TIME_SPAN, lanNum, lonNum])
+    LON_NUM=int((LON_END-LON_START)/GRID_LENGTH)
+    gpp = np.empty([YEAR_NUM, lanNum, LON_NUM])
+    # npp = np.empty([YEAR_NUM, lanNum, LON_NUM])
+    # nee = np.empty([YEAR_NUM, lanNum, LON_NUM])
     logFile = open(IBIS_ERR_PATH, 'w')
     for i in range(SITENUM):
         siteCoorStr = linecache.getline(COOR_PATH, i+1)
@@ -140,7 +140,7 @@ def writeNC():
                 # gpp[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [0]]).reshape(32)
                 # npp[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [1]]).reshape(32)
                 # nee[:, latIndex, lonIndex] = np.array(siteData.iloc[:, [2]]).reshape(32)
-                # gpp[:, latIndex, lonIndex] = np.resize(col1,timeLen).reshape(TIME_SPAN, -1).mean(axis=1)*1000
+                # gpp[:, latIndex, lonIndex] = np.resize(col1,timeLen).reshape(YEAR_NUM, -1).mean(axis=1)*1000
                 gpp[:, latIndex, lonIndex] = col1*1000
                 # npp[:, latIndex, lonIndex] = col2
                 # nee[:, latIndex, lonIndex] = col3

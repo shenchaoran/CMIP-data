@@ -26,19 +26,19 @@ LON_END = 179.75 + GRID_LENGTH
 LAT_START = -54.75
 LAT_END = 82.25 + GRID_LENGTH
 
-TIME_SPAN = 32
+YEAR_NUM = 32
 TIME_START = 1982
-TIME_END = TIME_START + TIME_SPAN
+TIME_END = TIME_START + YEAR_NUM
 
-lons = np.arange(LON_START, LON_END, GRID_LENGTH)
-lats = np.arange(LAT_START, LAT_END, GRID_LENGTH)
+LONS = np.arange(LON_START, LON_END, GRID_LENGTH)
+LATS = np.arange(LAT_START, LAT_END, GRID_LENGTH)
 
 def writeNC(outputPath):
     dataset = nc.Dataset(outputPath, 'w', format='NETCDF4')
 
-    lonDimension = dataset.createDimension('long', len(lons))
-    latDimension = dataset.createDimension('lat', len(lats))
-    timeDimension = dataset.createDimension('time', TIME_SPAN)
+    lonDimension = dataset.createDimension('long', len(LONS))
+    latDimension = dataset.createDimension('lat', len(LATS))
+    timeDimension = dataset.createDimension('time', YEAR_NUM)
 
     lonVariable = dataset.createVariable("long", 'f4', ("long"))
     latVariable = dataset.createVariable("lat", 'f4', ("lat"))
@@ -60,12 +60,12 @@ def writeNC(outputPath):
     timeVariable.units = 'days since ' + str(TIME_START) + '-01-01'
     timeVariable.calendar = '365_day'
 
-    lonVariable[:] = lons
-    latVariable[:] = lats
-    dates = [datetime(TIME_START, 1, 1) + n * timedelta(days=1) for n in range(TIME_SPAN)]
+    lonVariable[:] = LONS
+    latVariable[:] = LATS
+    dates = [datetime(TIME_START, 1, 1) + n * timedelta(days=1) for n in range(YEAR_NUM)]
     timeVariable[:] = date2num(dates, units=timeVariable.units, calendar=timeVariable.calendar)
 
-    tempVariable[:,:,:] = np.random.randint(0,65535, len(lons) * len(lats) * TIME_SPAN).reshape(TIME_SPAN, len(lats), len(lons))
+    tempVariable[:,:,:] = np.random.randint(0,65535, len(LONS) * len(LATS) * YEAR_NUM).reshape(YEAR_NUM, len(LATS), len(LONS))
 
     dataset.close()
     print('finished!')

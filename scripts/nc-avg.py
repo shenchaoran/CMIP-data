@@ -16,14 +16,14 @@ LON_END = 179.75 + GRID_LENGTH
 LAT_START = -54.75
 LAT_END = 82.25 + GRID_LENGTH
 
-TIME_SPAN = 32
+YEAR_NUM = 32
 TIME_START = 1982
-TIME_END = TIME_START + TIME_SPAN
+TIME_END = TIME_START + YEAR_NUM
 
-lons = np.arange(LON_START, LON_END, GRID_LENGTH)
-lats = np.arange(LAT_START, LAT_END, GRID_LENGTH)
-latNum=int((LAT_END-LAT_START)/GRID_LENGTH)
-lonNum=int((LON_END-LON_START)/GRID_LENGTH)
+LONS = np.arange(LON_START, LON_END, GRID_LENGTH)
+LATS = np.arange(LAT_START, LAT_END, GRID_LENGTH)
+LAT_NUM=int((LAT_END-LAT_START)/GRID_LENGTH)
+LON_NUM=int((LON_END-LON_START)/GRID_LENGTH)
 
 folder = '/home/scr/Data/scripts/data/'
 # def statByLat():
@@ -38,14 +38,14 @@ def annualAvg(srcFname, distFname, variableNames, yearIndex, scales):
     srcDataset = nc.Dataset(srcPath, 'r', format='NETCDF4')
     distDataset = nc.Dataset(distPath, 'w', format='NETCDF4')
 
-    distDataset.createDimension('long', lonNum)
-    distDataset.createDimension('lat', latNum)
+    distDataset.createDimension('long', LON_NUM)
+    distDataset.createDimension('lat', LAT_NUM)
     lonVariable = distDataset.createVariable("long", 'f4', ("long"))
     latVariable = distDataset.createVariable("lat", 'f4', ("lat"))
     lonVariable.units = 'degrees_east'
     latVariable.units = 'degrees_north'
-    lonVariable[:] = lons
-    latVariable[:] = lats
+    lonVariable[:] = LONS
+    latVariable[:] = LATS
 
     variableData = []
     for i, variableName in enumerate(variableNames):
@@ -53,9 +53,9 @@ def annualAvg(srcFname, distFname, variableNames, yearIndex, scales):
         vari.set_auto_mask(True)
         vari.units = 'kgC m-2 y-1'
         meaned = srcDataset.variables[variableName][yearIndex[0]:yearIndex[1]] \
-            .reshape(14*yearIndex[2], latNum, lonNum) \
+            .reshape(14*yearIndex[2], LAT_NUM, LON_NUM) \
             .mean(axis=0)*scales[i]
-        vari[:] = meaned.reshape(latNum,lonNum)
+        vari[:] = meaned.reshape(LAT_NUM,LON_NUM)
         # vari[:] = np.ma.masked_where((vari[:] == 0), vari)
     
     srcDataset.close()

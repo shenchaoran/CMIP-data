@@ -15,13 +15,13 @@ LON_END = 179.75 + GRID_LENGTH
 LAT_START = -54.75
 LAT_END = 82.25 + GRID_LENGTH
 
-lons = np.arange(LON_START, LON_END, GRID_LENGTH)
-lats = np.arange(LAT_START, LAT_END, GRID_LENGTH)
+LONS = np.arange(LON_START, LON_END, GRID_LENGTH)
+LATS = np.arange(LAT_START, LAT_END, GRID_LENGTH)
 
 dataset = Dataset(ncPath, 'w', format='NETCDF4')
 
-lonDimension = dataset.createDimension('long', len(lons))
-latDimension = dataset.createDimension('lat', len(lats))
+lonDimension = dataset.createDimension('long', len(LONS))
+latDimension = dataset.createDimension('lat', len(LATS))
 timeDimension = dataset.createDimension('time', None)
 
 lonVariable = dataset.createVariable("long", 'f4', ("long"))

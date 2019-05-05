@@ -29,3 +29,6 @@ elevation_0.5deg.nc
 scripts/nohup.out
 /LUE
 /PFT
+/scripts/CMIP/MS/__pycache__
+/scripts/CMIP/__pycache__
+/scripts/__pycache__

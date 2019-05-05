@@ -15,8 +15,8 @@ LAT_START = -54.75
 LAT_END = 82.25 + GRID_LENGTH
 scale = 0.1/interval
 
-lons = np.arange(LON_START, LON_END, GRID_LENGTH)
-lats = np.arange(LAT_START, LAT_END, GRID_LENGTH)
+LONS = np.arange(LON_START, LON_END, GRID_LENGTH)
+LATS = np.arange(LAT_START, LAT_END, GRID_LENGTH)
 
 def mod17a2Header():
     mod17a2NC = '/home/scr/Data/MODIS/MOD17/A2/MOD17A2-GPP.nc'
