@@ -18,10 +18,10 @@ const MOD17A2_ANNUAL = require('../CMIP/MS/MOD17A2-annual-cols.json')
 const MOD17A2_MONTH = MOD17A2_DAILY
 
 const coverageStoreNames = {
-    'IBIS-avg': IBIS_ANNUGL,
-    'Biome-BGC-avg': BIOME_BGC_ANNUGL,
-    'LPJ-avg': LPJ_ANNUAL,
-    'MOD17A2-avg': MOD17A2_ANNUAL,
+    'IBIS': IBIS_ANNUGL,
+    'Biome-BGC': BIOME_BGC_ANNUGL,
+    'LPJ': LPJ_ANNUAL,
+    'MOD17A2': MOD17A2_ANNUAL,
 }
 
 const CM_Gemerator = (sldName, cmName, min, max, noDataVs, colors) => {

@@ -17,19 +17,19 @@ const MOD17A2_ANNUAL = require('../CMIP/MS/MOD17A2-annual-cols.json')
 const MOD17A2_MONTH = MOD17A2_DAILY
 
 const coverageStoreNames = {
-    'IBIS-avg': {
+    'IBIS': {
         cols: IBIS_ANNUGL,
         file: 'IBIS.nc'
     },
-    'Biome-BGC-avg': {
+    'Biome-BGC': {
         cols: BIOME_BGC_ANNUGL,
         file: 'Biome-BGC.nc'
     },
-    'LPJ-avg': {
+    'LPJ': {
         cols: LPJ_ANNUAL,
         file: 'LPJ.nc'
     },
-    'MOD17A2-avg': {
+    'MOD17A2': {
         cols: MOD17A2_ANNUAL,
         file: 'MOD17A2.nc'
     },
@@ -61,12 +61,17 @@ const addCoverage = async (coveragestoreName, coverage) => {
         json: true,
         body: coverage
     })
+    // .then(() => console.log(1))
+    // .catch(e => {
+    //     console.log(e)
+    // })
 }
 
 const addCoverageStores = async () => {
     const request_coverageStore = [],
         request_coverage = []
     for(let coverageStoreName of Object.keys(coverageStoreNames)) {
+        const fname = coverageStoreNames[coverageStoreName].file
         request_coverageStore.push({
             coverageStore: {
                 name: coverageStoreName,
@@ -76,7 +81,7 @@ const addCoverageStores = async () => {
                     name: 'Carbon_Cycle'
                 },
                 _default: false,
-                url: `file:///home/scr/Data/scripts/data/annual/${coverageStoreName}.nc`,
+                url: `file:///home/scr/Data/scripts/data/annual/${fname}`,
             }
         })
         for(let col of coverageStoreNames[coverageStoreName].cols) {
@@ -95,6 +100,21 @@ const addCoverageStores = async () => {
                             enabled: true,
                             nativeFormat: 'NetCDF',
                             nativeCoverageName: col.id,
+                            metadata: {
+                                entry: [
+                                    {
+                                        '@key': 'time',
+                                        dimensionInfo: {
+                                            enabled: true,
+                                            presentation: 'LIST',
+                                            units: 'ISO8601',
+                                            defaultValue: {
+                                                strategy: 'MINIMUM'
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
                         }
                     }
                 ])

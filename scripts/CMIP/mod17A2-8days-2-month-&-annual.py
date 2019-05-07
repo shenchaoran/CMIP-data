@@ -68,7 +68,7 @@ for i, dPath in enumerate(distPaths):
             data[j] = tmp[j*4: (j+1)*4].mean(axis=0)
         data[11] = tmp[-4:].mean(axis=0)
         gppVariable.units = 'gC m-2 d-1'
-    gppVariable[:] = np.ma.masked_less_equal(data, 0)
+    gppVariable[:] = np.ma.filled(data, fill_value=0)
     ds.close()
     print('%s finished!' % dPath)
 
