@@ -41,11 +41,11 @@ def set_masked_V(ncPath):
     ds.close()
     print(ncPath)
 
-set_masked_V(nc_files[0])
+# set_masked_V(nc_files[0])
 
 print(len(nc_files))
-# pool = Pool(processes=30)
-# pool.map(set_masked_V, nc_files)
-# pool.close()
-# pool.join()
+pool = Pool(processes=30)
+pool.map(set_masked_V, nc_files)
+pool.close()
+pool.join()
 sys.exit(0)
