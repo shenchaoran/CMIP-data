@@ -22,18 +22,18 @@ from MS.LPJ import *
 from MS.Biome_BGC import *
 from MS.MOD17A2 import *
 
-nc_files = []
-root = '/home/scr/Data/scripts/data/'
-subFolders = ['annual']
-for folder in subFolders:
-    fpath = root + folder
-    for file in os.listdir(fpath):
-        if not os.path.isdir(file):
-            if os.path.splitext(file)[-1] == '.nc':
-                nc_files.append(fpath + '/' + file)
+nc_files = ['IBIS.nc', 'Biome-BGC.nc', 'LPJ.nc']
+root = '/home/scr/Data/scripts/data/annual/'
+# subFolders = ['annual']
+# for folder in subFolders:
+#     fpath = root + folder
+#     for file in os.listdir(fpath):
+#         if not os.path.isdir(file):
+#             if os.path.splitext(file)[-1] == '.nc':
+#                 nc_files.append(fpath + '/' + file)
 
 def set_masked_V(ncPath):
-    ds = Dataset(ncPath, 'r+', format='NETCDF4')
+    ds = Dataset(root + ncPath, 'r+', format='NETCDF4')
     timeVar = ds.variables['time']
     timeVar[:] = [i*365 for i in range(YEAR_NUM)]
     timeVar.units = 'days since 1982-01-01'
@@ -43,7 +43,7 @@ def set_masked_V(ncPath):
 
 # set_masked_V(nc_files[0])
 
-print(len(nc_files))
+# print(len(nc_files))
 pool = Pool(processes=30)
 pool.map(set_masked_V, nc_files)
 pool.close()
