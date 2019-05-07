@@ -1,29 +1,16 @@
+import json
 from CMIP import *
 class LPJ:
-    daily_cols = [
-        {
-            "id": "NPP",
-            "metricName": "daily-average-NPP",
-            "scale": 1.0,
-            "offset": 0.0,
-            "type": "number[]",
-            "description": "",
-            "unit": "gC m-2 d-1"
-        }, {
-            "id": "GPP",
-            "metricName": "daily-average-GPP",
-            "scale": 1.0,
-            "offset": 0.0,
-            "type": "number[]",
-            "description": "",
-            "unit": "gC m-2 d-1"
-        }
-    ]
+    daily_cols = []
     annual_cols = daily_cols
     month_cols = daily_cols
     def __init__(self, time):
         self.time = time
         self.name = 'LPJ'
+        with open('LPJ-daily-cols.json') as f3:
+            daily_cols = json.load(f3)
+        annual_cols = daily_cols
+        month_cols = daily_cols
 
     @property
     def cols(self):

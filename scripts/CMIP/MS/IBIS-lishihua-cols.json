@@ -1,0 +1,61 @@
+[
+    {
+        "id": "iyear",
+        "description": "annual leaf litter fall",
+        "type": "",
+        "scale": 1.0,
+        "offset": 0.0
+    },
+    {
+        "id": "falll",
+        "description": "annual leaf litter fall",
+        "type": "",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 0,
+        "max": 0.25,
+        "unit": "kgC m-2 y-1",
+        "metricName": "annual-leaf-litter-fall"
+    },
+    {
+        "id": "fallw",
+        "description": "annual wood litter fall",
+        "type": "",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 0,
+        "max": 0.25,
+        "unit": "kgC m-2 y-1",
+        "metricName": "annual-wood-litter-fall"
+    },
+    {
+        "id": "aylail",
+        "description": "",
+        "type": "",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 0,
+        "max": 5.8,
+        "unit": ""
+    }, {
+        "id": "aylaiu",
+        "description": "",
+        "type": "",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 0,
+        "max": 5.8,
+        "unit": ""
+    },
+    {
+        "id": "ayco2mic",
+        "description": "annual total CO2 flux from microbial respiration",
+        "type": "",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 0,
+        "max": 0.7,
+        "unit": "kgC m-2 y-1",
+        "metricName": "annual-total-CO2-flux-from-microbial-respiration"
+    }
+]

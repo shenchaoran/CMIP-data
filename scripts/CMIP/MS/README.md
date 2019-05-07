@@ -1,0 +1,1 @@
+msname-annual-cols.json: 用于批量生成 geoserver wms

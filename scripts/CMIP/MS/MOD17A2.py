@@ -1,22 +1,17 @@
+import json
 from CMIP import *
 
 class MOD17A2:
-    daily_cols = [
-        {
-            "id": "GPP",
-            "metricName": "daily-average-GPP",
-            "scale": 1.0,
-            "offset": 0.0,
-            "type": "number[]",
-            "description": "",
-            "unit": "gC m-2 d-1"
-        }
-    ]
-    annual_cols = daily_cols
-    month_cols = daily_cols
+    daily_cols = []
+    annual_cols = []
+    month_cols = []
     def __init__(self, time):
         self.time = time
         self.name = 'MOD17A2'
+        with open('MOD17A2-cols.json') as f3:
+            daily_cols = json.load(f3)
+        annual_cols = daily_cols
+        month_cols = daily_cols
 
     @property
     def cols(self):

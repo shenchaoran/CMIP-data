@@ -1,0 +1,289 @@
+[
+    {
+        "id": "iyear",
+        "type": "",
+        "description": "year number",
+        "scale": 1.0,
+        "offset": 0.0,
+        "unit": "",
+        "metricName": "year-number"
+    }, {
+        "id": "imonth",
+        "type": "",
+        "description": "month number",
+        "scale": 1.0,
+        "offset": 0.0,
+        "unit": "",
+        "metricName": "month-number"
+    }, {
+        "id": "iday",
+        "type": "",
+        "description": "day number",
+        "scale": 1.0,
+        "offset": 0.0,
+        "unit": "",
+        "metricName": "day-number"
+    }, {
+        "id": "adrain",
+        "type": "",
+        "description": "daily average rainfall rate",
+        "scale": 1.0,
+        "offset": 0.0,
+        "unit": "mm d-1",
+        "metricName": "daily-average-rainfall-rate"
+    }, {
+        "id": "adsnow",
+        "type": "",
+        "description": "daily average snowfall rate",
+        "scale": 1.0,
+        "offset": 0.0,
+        "unit": "mm d-1",
+        "metricName": "daily-average-snowfall-rate"
+    }, {
+        "id": "adaet",
+        "type": "",
+        "description": "daily average aet",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 0,
+        "max": 5.60,
+        "unit": "mm d-1",
+        "metricName": "daily-average-aet"
+    }, {
+        "id": "adtrans",
+        "type": "",
+        "description": "",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 0,
+        "max": 3.42,
+        "unit": "",
+        "metricName": ""
+    }, {
+        "id": "adinvap",
+        "type": "",
+        "description": "",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 0,
+        "max": 4,
+        "unit": "",
+        "metricName": ""
+    }, {
+        "id": "adsuvap",
+        "type": "",
+        "description": "",
+        "scale": 1,
+        "offset": 0.0,
+        "min": 0,
+        "max": 1,
+        "unit": "",
+        "metricName": ""
+    }, {
+        "id": "adtrunoff",
+        "type": "",
+        "description": "daily average total runoff",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 0,
+        "max": 2.4,
+        "unit": "mm d-1",
+        "metricName": "daily-average-total-runoff"
+    }, {
+        "id": "adsrunoff",
+        "type": "",
+        "description": "daily average surface runoff",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 0,
+        "max": 2.4,
+        "unit": "mm d-1",
+        "metricName": "daily-average-surface-runoff"
+    }, {
+        "id": "addrainage",
+        "type": "",
+        "description": "daily average drainage",
+        "scale": 1.0,
+        "offset": 0.0,
+        "unit": "mm d-1",
+        "metricName": "daily-average-drainage"
+    }, {
+        "id": "adrh",
+        "type": "",
+        "description": "daily average relative humidity",
+        "scale": 1.0,
+        "offset": 0.0,
+        "unit": "percent",
+        "metricName": "daily-average-rh"
+    }, {
+        "id": "adsnod",
+        "type": "",
+        "description": "daily average snow depth",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 0,
+        "max": 0.36,
+        "unit": "m",
+        "metricName": "daily-average-snow-depth"
+    }, {
+        "id": "adsnof",
+        "type": "",
+        "description": "daily average snow fraction",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 0,
+        "max": 0.75,
+        "unit": "fraction",
+        "metricName": "daily-average-snow-fraction"
+    }, {
+        "id": "adwsoi",
+        "type": "",
+        "description": "daily average soil moisture",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 0,
+        "max": 0.79,
+        "unit": "fraction",
+        "metricName": "daily-average-soil-moisture"
+    }, {
+        "id": "adwisoi",
+        "type": "",
+        "description": "daily average soil ice",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 0,
+        "max": 0.79,
+        "unit": "fraction",
+        "metricName": "daily-average-soil-ice"
+    }, {
+        "id": "adtsoi",
+        "type": "",
+        "description": "daily average soil temperature",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 255,
+        "max": 310,
+        "unit": "°C",
+        "metricName": "daily-average-soil-temperature"
+    }, {
+        "id": "adwsoic",
+        "type": "",
+        "description": "daily average soil moisture using root profile weighting",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 0,
+        "max": 0.8,
+        "unit": "fraction",
+        "metricName": "daily-average-soil-moisture-using-root-profile-weighting"
+    }, {
+        "id": "adtsoic",
+        "type": "",
+        "description": "daily average soil temperature using profile weighting",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 255,
+        "max": 310,
+        "unit": "°C",
+        "metricName": "daily-average-soil-temperature-using-profile-weighting"
+    }, {
+        "id": "adco2mic",
+        "type": "",
+        "description": "daily accumulated co2 respiration from microbes",
+        "scale": 1,
+        "offset": 0.0,
+        "min": 0,
+        "max": 0.6,
+        "unit": "kgN m-2 d-1",
+        "metricName": "daily-accumulated-co2-respiration-from-microbes"
+    }, {
+        "id": "adco2root",
+        "type": "",
+        "description": "daily accumulated co2 respiration from roots",
+        "scale": 1,
+        "offset": 0.0,
+        "min": 0,
+        "max": 2,
+        "unit": "kgC m-2 d-1",
+        "metricName": "daily-accumulated-co2-respiration-from-roots"
+    }, {
+        "id": "adco2soi",
+        "type": "",
+        "description": "daily accumulated co2 respiration from soil(total)",
+        "scale": 1,
+        "offset": 0.0,
+        "min": 0,
+        "max": 2.5,
+        "unit": "kgC m-2 d-1",
+        "metricName": "daily-accumulated-co2-respiration-from-soil(total)"
+    }, {
+        "id": "adco2ratio",
+        "type": "",
+        "description": "ratio of root to total co2 respiration",
+        "scale": 1,
+        "offset": 0.0,
+        "min": 227,
+        "max": 332,
+        "unit": "kgC m-2 d-1",
+        "metricName": "ratio-of-root-to-total-co2-respiration"
+    }, {
+        "id": "adnmintot",
+        "type": "",
+        "description": "daily accumulated net nitrogen mineralization",
+        "scale": 1,
+        "offset": 0.0,
+        "min": 0,
+        "max": 0.006,
+        "unit": "kgN m-2 d-1",
+        "metricName": "daily-accumulated-net-nitrogen-mineralization"
+    }, {
+        "id": "adtlaysoi",
+        "type": "",
+        "description": "daily average soil temperature of top layer",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 255,
+        "max": 310,
+        "unit": "°C",
+        "metricName": "daily-average-soil-temperature-of-top-layer"
+    }, {
+        "id": "adwlaysoi",
+        "type": "",
+        "description": "daily average soil moisture of top layer",
+        "scale": 1.0,
+        "offset": 0.0,
+        "min": 0,
+        "max": 0.8,
+        "unit": "fraction",
+        "metricName": "daily-average-soil-moisture-of-top-layer"
+    }, {
+        "id": "adneetot",
+        "type": "",
+        "description": "daily accumulated net ecosystem exchange of co2 in ecosystem",
+        "scale": 1,
+        "offset": 0.0,
+        "min": -0.06,
+        "max": 0.08,
+        "unit": "gC m-2 d-1",
+        "metricName": "daily-average-NEE"
+    }, {
+        "id": "adgpptot",
+        "type": "",
+        "description": "daily average GPP",
+        "scale": 1,
+        "offset": 0.0,
+        "min": 0,
+        "max": 4.5,
+        "unit": "gC m-2 d-1",
+        "metricName": "daily-average-GPP"
+    }, {
+        "id": "adnpptot",
+        "type": "",
+        "description": "daily average NPP",
+        "scale": 1,
+        "offset": 0.0,
+        "min": 0,
+        "max": 1,
+        "unit": "gC m-2 d-1",
+        "metricName": "daily-average-NPP"
+    }
+]

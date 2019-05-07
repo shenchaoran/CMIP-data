@@ -68,7 +68,7 @@ def plotSpatial(argv):
             (0.675, '#DEF103'),
             (0.75, '#FF9703'),
             (0.875, '#FC0101'),
-            (1, '#B30404')
+            (1, '#B30404'),
         ], N=125)
         masked = maskoceans(lon, lat, var[:])
         # data = np.ma.masked_equal(masked, 0)

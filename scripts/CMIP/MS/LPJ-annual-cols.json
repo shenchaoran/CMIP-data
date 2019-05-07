@@ -1,0 +1,23 @@
+[
+    {
+        "id": "NPP",
+        "metricName": "daily-average-NPP",
+        "scale": 1.0,
+        "offset": 0.0,
+        "type": "number[]",
+        "description": "",
+        "min": 0,
+        "max": 0.786,
+        "unit": "gC m-2 d-1"
+    }, {
+        "id": "GPP",
+        "metricName": "daily-average-GPP",
+        "scale": 1.0,
+        "offset": 0.0,
+        "type": "number[]",
+        "description": "",
+        "min": 0,
+        "max": 1.43,
+        "unit": "gC m-2 d-1"
+    }
+]
